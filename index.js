@@ -26,6 +26,7 @@ async function start() {
       });
       const sorted = milesPrices.sort((a, b) => a - b);
       const bestPrice = sorted[0];
+      console.log({ date, bestPrice });
       if (bestPrice <= TARGET_PRICE) {
         sendNotification(bestPrice, null, date)
       }
