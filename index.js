@@ -14,6 +14,7 @@ for (let date = new Date(START_DATE); date <= END_DATE; date.setDate(date.getDat
 
 async function start() {
   try {
+    console.log(`Checking flights to MADRID between ${START_DATE.toISOString().slice(0, 10)} and ${END_DATEtoISOString().slice(0, 10)}`)
     const requests = datesToCheck.map((date) => getFligthsForDate(date));
     const result = await Promise.all(requests);
     result.forEach((flights, index) => {
@@ -36,7 +37,9 @@ async function start() {
   }
 }
 
-cron.schedule('0 0 * * *', function() {
-  console.log('Checking smiles flights...');
+cron.schedule('*/15 * * * *', function() {
+  console.log('Checking smiles flights... Current date: ', new Date().toDateString());
   start();
 });
+
+console.log('Cron scheduled every 15 minutes');
