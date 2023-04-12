@@ -5,7 +5,7 @@ const { getFligthsForDate } = require('./smiles.api');
 const START_DATE = new Date('2023-10-30');
 const END_DATE = new Date('2023-11-15');
 
-const TARGET_PRICE = 250_000;
+const TARGET_PRICE = 190_000;
 
 const datesToCheck = [];
 for (let date = new Date(START_DATE); date <= END_DATE; date.setDate(date.getDate() + 1)) {
@@ -14,7 +14,7 @@ for (let date = new Date(START_DATE); date <= END_DATE; date.setDate(date.getDat
 
 async function start() {
   try {
-    console.log(`Checking flights to MADRID between ${START_DATE.toISOString().slice(0, 10)} and ${END_DATEtoISOString().slice(0, 10)}`)
+    console.log(`Checking flights to MADRID between ${START_DATE.toISOString().slice(0, 10)} and ${END_DATE.toISOString().slice(0, 10)}`)
     const requests = datesToCheck.map((date) => getFligthsForDate(date));
     const result = await Promise.all(requests);
     result.forEach((flights, index) => {
@@ -27,7 +27,7 @@ async function start() {
       });
       const sorted = milesPrices.sort((a, b) => a - b);
       const bestPrice = sorted[0];
-      console.log({ date, bestPrice });
+      console.log({ date, prices: milesPrices });
       if (bestPrice <= TARGET_PRICE) {
         sendNotification(bestPrice, null, date)
       }
@@ -42,4 +42,5 @@ cron.schedule('*/15 * * * *', function() {
   start();
 });
 
+start();
 console.log('Cron scheduled every 15 minutes');

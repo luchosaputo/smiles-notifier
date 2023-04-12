@@ -36,7 +36,7 @@ const getFligthsForDate = (date) => {
         
   }).then((response) => {
     const { requestedFlightSegmentList: [{ flightList }] } = response.data;
-    return flightList.filter(flight => flight.stops <= 1 && flight.duration.hours < 16);
+    return flightList.filter(flight => flight.stops <= 1 && flight.duration.hours <= 17);
   })
     .catch(error => {
       if (error.response) console.error('Error from API: ', error.response);
